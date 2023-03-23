@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Create New Book Form</title>
+<link th:href="@{/resources/css/style.css}"
+rel="stylesheet" />
+ <link href="/resources/css/bootstrap.min.css"
+rel="stylesheet"/>
+</head>
+<body class="login-page-body"> 
+  
+    <div class="login-page">
+      <div class="form">
+        <div class="login">
+          <div class="login-header">
+            <h1>Welcome!</h1>
+            
+          </div>
+        </div>
+        <div th:if="${loginError}" class="alert alert-danger" role="alert">
+   <span th:text="${loginError}"></span>
+</div>
+
+        <form class="login-form" action="userLogin" method="post" th:object="${userLogin}">
+          <input type="text" placeholder="User Name" name="name" th:field="*{name}"/>
+          <label
+		th:if="${#fields.hasErrors('name')}"
+		th:errors="*{name}" style="color:red;">Error</label>
+          <input type="password" placeholder="Password" name="pas" th:field="*{pas}"/>
+          <label
+		th:if="${#fields.hasErrors('pas')}"
+		th:errors="*{pas}" style="color:red;">Error</label>
+          <button type="submit">login</button>
+          <p class="message">Not registered? <a href="setUpUserRegister">Create an account</a></p>
+          <p class="message">Forgot Password?<a href="userEmail">Click Here</a></p>
+        </form>
+      </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,112 @@
+<div th:include="header.html"></div>
+
+    <div id="sub_content">
+        <form action="userRegister" method="post" th:object="${userRegister}">
+
+            <h2 class="col-md-6 offset-md-2 mb-5 mt-4">User Registration</h2>
+           
+			<div class="row mb-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                <div th:if="${pasError}" class="alert alert-danger" role="alert">
+  				 <span th:text="${pasError}"></span>
+  				 </div>
+  				 <div th:if="${session.msgReg}" class="alert alert-info" role="alert">
+  				 <span th:text="${session.msgReg}"></span>
+  				 </div>
+  				 <div th:if="${msgEmail}" class="alert alert-danger" role="alert">
+  				 <span th:text="${msgEmail}"></span>
+  				 </div>
+                </div>
+                </div>
+                
+               
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="email" class="col-md-2 col-form-label">Id</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="name" name="id" th:value="${session.id}" readonly="readonly"/>
+                    
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="email" class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="name" th:field="*{name}" />
+                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Error</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="email" class="col-md-2 col-form-label">Email</label>
+                <div class="col-md-4">
+                    <input type="email" class="form-control" id="email" th:field="*{email}" />
+                     <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red;">Error</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="Passowrd" class="col-md-2 col-form-label">Passowrd</label>
+                <div class="col-md-4">
+                    <input type="password" class="form-control" id="name" th:field="*{pas}" />
+                     <label th:if="${#fields.hasErrors('pas')}" th:errors="*{pas}" style="color:red;">Error</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="confirmPassword" class="col-md-2 col-form-label" >Confirm Passowrd</label>
+                <div class="col-md-4">
+                    <input type="password" class="form-control" id="confirmPassword" th:field="*{c_pas}" />
+                     <label th:if="${#fields.hasErrors('c_pas')}" th:errors="*{c_pas}" style="color:red;">Error</label>
+                    
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="userRole" class="col-md-2 col-form-label">User Role</label>
+                <div class="col-md-4">
+                    <select class="form-select" aria-label="Education" id="userRole" th:field="*{role}">
+                        <option value="Admin">Admin</option>
+                        <option value="User">User</option>
+                    </select>
+                     <label th:if="${#fields.hasErrors('role')}" th:errors="*{role}" style="color:red;">Error</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-4"></div>
+    
+                <div class="col-md-6">
+                   
+    
+                    <button type="submit" class="btn btn-secondary col-md-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Add</button>
+                    <span th:if="${session.role == 'User' || session.role == 'Admin'}">
+                    <button type="button" class="btn btn-info col-md-2 " onclick="location.href = '/showUser';">
+                		Back
+           		 </button>
+                    </span>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Student Registration</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                   
+                                   <h5 style="color: rgb(127, 209, 131);">Registered Succesfully !</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-success col-md-2" data-bs-dismiss="modal">Ok</button>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                </div>
+    
+            </div>
+            </form>
+    </div>
+<div th:include="footer.html"></div>

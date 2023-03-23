@@ -1,0 +1,103 @@
+<div th:include="header.html"></div>
+    <div id="sub_content">
+    
+        <form action="setupUserSearch" method="post" class="row g-3 mt-3 ms-2" th:object="${search}">
+            <div class="col-auto">
+                <label for="staticEmail2" class="visually-hidden">User Id</label>
+                <input type="text" class="form-control" id="staticEmail2" placeholder="User ID" th:field="*{id}"/>
+               
+            </div>
+            <div class="col-auto">
+                <label for="inputPassword2" class="visually-hidden">User Name</label>
+                <input type="text" class="form-control" id="inputPassword2" placeholder="User Name" th:field="*{name}"/>
+            </div>
+    
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary mb-3">Search</button>
+            </div>
+            
+            <div class="col-auto">
+            <span th:if="${session.role == 'Admin'}">
+                <button type="button" class="btn btn-secondary " onclick="location.href = 'setUpUserRegister';">
+                
+                    Add
+                </button>
+                </span>
+                </div>
+                
+            <div class="col-auto">
+            <span th:if="${session.role == 'Admin' || session.role == 'User'}">
+                <button type="button" class="btn btn-danger mb-3" onclick="location.href = 'showUser';">
+                
+                Reset</button>
+                 </span>
+            </div>
+            
+    		 <div class="col-auto" >
+    		  <span th:if="${session.role == 'User' || session.role == 'Admin'}">
+                
+                <a th:href="@{~/setupUpdateUser/{id}(id=${session.id})}" th:onclick="return confirm('Are you sure you want to update your account!')" class="btn btn-success ">               
+                    Update
+                </a>
+                </span>
+            </div>
+			
+        </form>
+		<div class="row mb-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                <div th:if="${session.msgBlank}" class="alert alert-danger" role="alert">
+  				 <span th:text="${session.searchBlank}"></span>
+  				 </div>
+  				 <div th:if="${msgNotFound}" class="alert alert-danger" role="alert">
+  				 <span th:text="${searchError}"></span>
+  				 </div>
+                </div>
+         </div>
+        <table class="table table-striped" id="stduentTable">
+            <thead>
+                <tr>
+                    
+                    <th scope="col">User ID</th>
+                    <th scope="col">User Name</th>
+                    <th scope="col" th:if="${session.role == 'Admin'}">Details</th>
+                    
+                </tr>
+            </thead>
+            
+            <tbody th:each="data: ${list}">
+                <tr>
+                    <td th:text="${data.id}"></td>
+ 					<td th:text="${data.name}"></td>
+                <span th:if="${session.role == 'Admin'}">   
+				<td><a th:href="@{~/setupUpdateUser/{id}(id=${data.id})}" class="btn btn-success" th:onclick="return confirm('Are you sure you want to update!')">Update</a>
+                    </td>
+                <td><a th:href="@{/setupDeleteUser/{id}(id=${data.id})}" class="btn btn-danger" th:onclick="return confirm('Are you sure you want to delete!')">Delete</a>
+                    </td>
+				</span> 
+                </tr>
+    
+            </tbody>
+        </table>
+    
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Student Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        
+                         <h5 style="color: rgb(127, 209, 131);">Are you sure want to delete !</h5>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-success col-md-2" data-bs-dismiss="modal">Ok</button>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<div th:include="footer.html"></div>
+

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Create New Book Form</title>
+<link th:href="@{/resources/css/style.css}"
+rel="stylesheet" />
+ <link href="/resources/css/bootstrap.min.css"
+rel="stylesheet"/>
+</head>
+<body class="login-page-body"> 
+  
+    <div class="login-page">
+      <div class="form">
+        <div class="login">
+          
+        </div>
+        <div th:if="${pasError}" class="alert alert-danger" role="alert">
+   <span th:text="${pasError}"></span>
+</div>
+
+        <form class="login-form" action="pasCheck" method="post" th:object="${userPas}">
+          <input type="password" placeholder="Password" name="pas" th:field="*{pas}"/>
+          <label
+		th:if="${#fields.hasErrors('name')}"
+		th:errors="*{name}" style="color:red;">Error</label>
+          <input type="password" placeholder="Confirm Password" name="c_pas" th:field="*{c_pas}"/>
+          <label
+		th:if="${#fields.hasErrors('pas')}"
+		th:errors="*{pas}" style="color:red;">Error</label>
+          <button type="submit">Submit</button>
+          
+        </form>
+      </div>
+    </div>
+</body>
+
+</html>

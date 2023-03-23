@@ -1,0 +1,160 @@
+<div th:include="header.html"></div>
+
+    <div id="sub_content">
+        <form th:action="@{~/updateStudent}" method="post" th:object="${student}" enctype="multipart/form-data">
+	
+            <h2 class="col-md-6 offset-md-2 mb-5 mt-4">Student Update</h2>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <div class="col-md-4">
+                <div th:if="${msg}" class="alert alert-info" role="alert">
+  				 <span th:text="${msgUpd}"></span>
+  				 </div>
+  				 <div th:if="${msgNotFound}" class="alert alert-danger" role="alert">
+  				 <span th:text="${searchError}"></span>
+  				 </div>
+                </div>
+         </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="studentID" class="col-md-2 col-form-label">Student ID</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" name = "id" id="studentID" th:field="*{id}" readonly="readonly"/>
+                    
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="name" class="col-md-2 col-form-label">Name</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="name" th:field="*{name}" />
+                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;">Error</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="dob" class="col-md-2 col-form-label">DOB</label>
+                <div class="col-md-4">
+                    <input type="date" class="form-control" id="dob" th:field="*{dob}" />
+                    <label th:if="${#fields.hasErrors('dob')}" th:errors="*{dob}" style="color:red;">Error</label>
+                </div>
+            </div>
+            <fieldset class="row mb-4">
+                <div class="col-md-2"></div>
+                <legend class="col-form-label col-md-2 pt-0">Gender</legend>
+                <div class="col-md-4">
+                    <div class="form-check-inline">
+                        <input type="radio" class="form-check-input"  id="gridRadios1" th:value="Male" th:name="gender" th:checked="${student.gender == 'Male'}"/>
+                        <label class="form-check-label" for="gridRadios1">
+                            Male
+                        </label>
+                        
+                    </div>
+                    <div class="form-check-inline">
+                        <input type="radio" class="form-check-input" id="gridRadios2" th:value="Female" th:name="gender" th:checked="${student.gender == 'Female'}"/>
+                        <label class="form-check-label" for="gridRadios2">
+                            Female
+                        </label>
+                        
+                    </div>
+                        <div>
+                        <label th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}" style="color:red;">Error</label>
+                        </div>
+                </div>
+               
+            </fieldset>
+    
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="phone" class="col-md-2 col-form-label">Phone</label>
+                <div class="col-md-4">
+                    <input type="text" class="form-control" id="phone" th:field="*{phone}"  />
+                    <label th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color:red;">Error</label>
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="education" class="col-md-2 col-form-label">Education</label>
+                <div class="col-md-4">
+                    <select th:field="*{education}"  class="form-select" aria-label="Education" id="education">
+                        <option value="Bachelor of Information Technology" >Bachelor of Information Technology</option>
+                        <option value="Diploma in IT" >Diploma in IT</option>
+                        <option value="Bachelor of Computer Science">Bachelor of Computer Science</option>
+                    </select>
+                   <label th:if="${#fields.hasErrors('education')}" th:errors="*{education}" style="color:red;">Error</label>
+                </div>
+            </div>
+            <fieldset class="row mb-4">
+                 <div class="col-md-2"></div>
+                <legend class="col-form-label col-md-2 pt-0">Attend</legend>
+                
+                <div class="col-md-4">
+                <ul>
+                 <li th:each="course : ${session.courses}">
+                <input type="checkbox" class="form-check-input" id="gridRadios2" name="courses" th:value="${course.id}" th:checked="${list != null and list.contains(course.id)}"/>
+                <label class="form-check-label" for="gridRadios2"><span th:text="${course.name}"></span></label>
+        		</li>       		
+        		</ul>
+      			<label th:if="${#fields.hasErrors('courses')}" th:errors="*{courses}" style="color:red;">Error</label>
+                </div>   
+               
+            </fieldset>
+            <div class="row mb-4">
+                <div class="col-md-2"></div>
+                <label for="name" class="col-md-2 col-form-label">Photo</label>
+                <div class="col-md-4">               
+                    <input type="file" class="form-control" id="name" th:field="*{file}" />
+                    <span th:text="${session.fileName}"></span>
+                    <div>
+                <span th:text="${fileError}" style="color:red;"></span>
+                </div>
+                </div>
+               
+            </div>
+    
+            <div class="row mb-4">
+                <div class="col-md-4"></div>
+    
+                <div class="col-md-4">
+                     <button type="submit" class="btn btn-info ">
+    
+                        Update
+                    </button>
+                    <a th:href="@{/deleteStudent/{id}(id=${student.id})}"
+					class="btn btn-danger"
+					th:onclick="return confirm('Are you sure you want to delete!')">Delete</a>
+					
+					<button type="button" onclick="location.href='/showStudent'" class="btn btn-secondary ">
+    
+                        Back
+                    </button>
+                    
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Student Registration</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5 style="color: rgb(127, 209, 131);">Registered Succesfully !</h5>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success col-md-2" data-bs-dismiss="modal">Ok</button>
+                               
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            </form>
+                </div>
+
+    
+            </div>
+    
+            
+    </div>
+<div th:include="footer.html"></div>
+

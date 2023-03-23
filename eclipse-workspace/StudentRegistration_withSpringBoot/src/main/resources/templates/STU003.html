@@ -1,0 +1,69 @@
+ <div th:include="header.html"></div>
+    <div id="sub_content">
+      <form action="studentSearch" method="post" class="row g-3 mt-3 ms-2" th:object="${search}">
+      
+        <div class="col-auto">
+          <label class="visually-hidden">studentID</label>
+          <input type="text" class="form-control" placeholder="Enter Keyword" th:field="*{id}"/>
+        </div>
+       
+        <div class="col-auto">
+          <button type="submit"  class="btn btn-success mb-3">Search</button>
+        </div>
+        <div class="col-auto">
+          <button type="reset" class="btn btn-secondary mb-3" onclick="location.href='showStudent'">Reset</button>
+        </div>
+	</form>
+	<div>
+	<a href="printFile">Print PDF File</a>
+	</div><br>
+	<div th:if="${session.message}">
+	
+	<span th:text="${session.message.content}" class="alert alert-info text-center"></span>
+	
+</div>
+<div th:if="${session.error}">
+	
+	<span th:text="${session.error.content}" class="alert alert-danger text-center">></span>
+	
+</div>
+      <table class="table table-striped" id="stduentTable" >
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Student ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Course Name</th>        
+            <th scope="col">Photo</th>
+            <th scope="col">Details</th>
+          </tr>
+        </thead>
+       
+        <tbody th:each="data,index: ${session.list}">
+          <tr  class="align-middle">
+            <th scope="row" th:text="${index.index + 1}"></th>
+            
+    		<td th:text="${data.id}"></td>
+ 			<td th:text="${data.name}"></td>
+ 			<td>
+ 			<span th:each="course : ${data.courses}"></span>
+ 			<span th:text="${#strings.listJoin(data.courses.![name], ', ')}"></span>
+ 			
+ 			</td>
+ 			<td>
+ 			
+ 			<img th:src="@{'/image?id='+ ${data.id}}" width="100px" height="60px">
+ 			<a th:href="@{'/downloadfile?id=' + ${data.id}}"><i class="fa fa-download"></i>
+ 			</td>
+            <td>
+                    <a th:href="@{/setupUpdateStudent/{id}(id=${data.id})}" class="btn btn-success" >See More</a>
+                </td>
+          </tr>
+         
+        </tbody>
+       
+      </table>
+      
+    
+    </div>
+ <div th:include="footer.html"></div>
